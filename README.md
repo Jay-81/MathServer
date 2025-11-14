@@ -32,146 +32,93 @@ Create a HTML file to implement form based input and output.
 Publish the website in the given URL.
 
 ## PROGRAM :
-
-math.html
 ```
+math.html
+
 <html>
+
 <head>
-<style>
-body {
-  font-size: 20px;
-  background-color: #191970; /* Gentler blue */
-  margin: 0;
-  height: 100vh;
-}
-
-.edge {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.box {
-  background: white;
-  padding: 40px 40px 30px 40px;
-  border-radius: 15px;
-  box-shadow: 0px 0px 20px #222;
-  min-width: 350px;
-}
-
-.form1 {
-  color: orange;
-  text-align: center;
-  margin-top: 7px;
-  margin-bottom: 6px;
-  font-weight: bold;
-}
-
-input[type="text"] {
-  padding: 7px;
-  margin: 4px 0;
-  border-radius: 7px;
-  border: 1px solid #bbb;
-  width: 110px;
-  font-size: 18px;
-}
-
-input[type="submit"] {
-  padding: 7px 20px;
-  border-radius: 10px;
-  font-size: 18px;
-  background: #FF69B4;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-h1 {
-  color: #FF69B4;
-  text-align: center;
-  padding-top: 10px;
-  margin-top: 0;
-  margin-bottom: 25px;
-  font-size: 2.1em;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-</style>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>POWER OF LAMP IN INCANDESCENT BULD</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style type="text/css">
+        .box {
+            display: block;
+            width: 500px;
+            min-height: 300px;
+            font-size: 20px;
+            background: rgb(21, 208, 215);
+            background: linear-gradient(90deg, rgb(99, 237, 118) 9%, rgb(193, 166, 202) 56%);
+            border-radius: 10px;
+            box-shadow: rgba(239, 5, 24, 0.35) 0px 5px 15px;
+        }
+       </style>
 </head>
 
 <body>
-<div class="edge">
-  <div class="box">
-    <h1>Area of Rectangle</h1>
-    <form method="POST">
-      {% csrf_token %}
-      <div class="form1">
-        Length <input type="text" name="length" value="{{l}}">(in m)<br/>
-      </div>
-      <div class="form1">
-        Breadth <input type="text" name="breadth" value="{{b}}">(in m)<br/>
-      </div>
-      <div class="form1">
-        <input type="submit" value="Calculate"><br/>
-      </div>
-      <div class="form1">
-        Area <input type="text" name="area" value="{{area}}">m<sup>2</sup><br/>
-      </div>
-    </form>
-  </div>
-</div>
+    <div>
+        <div class="box">
+            <h1>POWER OF LAMP IN INCANDESCENT BULB</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <div>
+                    INTENSITY : <input type="text" name="Intensity" value="{{I}}"></input>(in A)<br />
+                </div>
+                <div >
+                    RESISITANCE : <input type="text" name="Resistence" value="{{R}}"></input>(in Ω)<br />
+                </div>
+                <div >
+                    <input type="submit" value="Calculate"></input><br />
+                </div>
+                <div>
+                    POWER : <input type="text" name="Power" value="{{Power}}"></input>W<br />
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
+
 </html>
 
-```
 views.py
-```
+
 from django.shortcuts import render
 
-def rectarea(request):
-    context = {}
-    context['area'] = "0"
-    context['l'] = "0"
-    context['b'] = "0"
-
+def powerlamp(request):
+    context={}
+    context['Power'] = ""
+    context['I'] = ""
+    context['R'] = ""
     if request.method == 'POST':
         print("POST method is used")
-        l = request.POST.get('length', '0')
-        b = request.POST.get('breadth', '0')
-        print('request =', request)
-        print('Length =', l)
-        print('Breadth =', b)
+        I = request.POST.get('Intensity','')
+        R = request.POST.get('Resistence','')
+        print('request=',request)
+        print('Intensity=',I)
+        print('Resistence=',R)
+        Power = int(I) * int(I) * int(R)
+        context['Power'] = Power
+        context['I'] = I
+        context['R'] = R
+        print('Power=',Power)
+    return render(request,'mathapp/math.html',context)
 
-        area = int(l) * int(b)
-        context['area'] = area
-        context['l'] = l
-        context['b'] = b
-        print('Area =', area)
-
-    return render(request, 'mathapp/math.html', context)
-
-```
 urls.py
 
-```
 from django.contrib import admin
 from django.urls import path
 from mathapp import views
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('areaofrectangle/', views.rectarea, name='areaofrectangle'),
-    path('', views.rectarea, name='areaofrectangleroot'),
-]
-
+    path('',views.powerlamp,name="powerlamp"),]
 ```
 ## SERVER SIDE PROCESSING:
 
-![alt text](<Screenshot (105).png>)
+![alt text](<Screenshot (159).png>)
 
 ## HOMEPAGE:
-
-![alt text](<Screenshot (104).png>)
+![alt text](<Screenshot (158).png>)
 
 ## RESULT:
 The program for performing server side processing is completed successfully.
